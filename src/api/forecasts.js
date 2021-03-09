@@ -45,12 +45,16 @@ const fetchWeatherAll = async (dealers) => {
 
 
 router.get('/', async (req, res) => {
+
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+
     if (cacheTime && cacheTime > Date.now()- 3*60*60*1000){
-        console.log('used cached data');
+        console.log("Responded with cached at " + today.toUTCString());
         res.json(cachedData);
         return;
     }
-    console.log('fetching new forecats now');
+    console.log('Fetched new forecats at ' + today.toUTCString());
     const forecasts = await fetchWeatherAll(dealers);  
     res.json(forecasts);
 });
