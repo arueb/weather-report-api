@@ -31,8 +31,8 @@ const fetchWeatherAll = async (dealers) => {
       item.data.state = dealers[idx].state;
       return item.data;
     });
-    cachedData = forecasts;
-    cacheTime = Date.now();
+    cachedData = forecasts; // store the newly fetched forecasts in cache
+    cacheTime = Date.now(); // reset cache timer (< 6 hours)
     return forecasts;
   } catch (err) {
     console.log(err);
@@ -43,11 +43,13 @@ router.get("/", async (req, res) => {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
 
+  // if forecast data is less than 6 hours old, use cached data
   if (cacheTime && cacheTime > Date.now() - 6 * 60 * 60 * 1000) {
     console.log("Responded with cached at " + today.toUTCString());
     res.json(cachedData);
     return;
   }
+  // otherwise fetch new forecasts
   console.log("Fetched new forecats at " + today.toUTCString());
   const forecasts = await fetchWeatherAll(dealers);
   res.json(forecasts);
