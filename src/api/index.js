@@ -1,15 +1,15 @@
-const express = require('express');
+const express = require("express");
 
-const forecasts = require('./forecasts');
+const forecasts = require("./forecasts");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   res.json({
-    message: 'API - 👋🌎🌍🌏'
+    message: "API - 👋🌎",
   });
 });
 
-router.use('/forecasts', forecasts);
+router.use("/forecasts", forecasts);
 
 module.exports = router;
